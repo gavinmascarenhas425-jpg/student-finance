@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>StudentFinance: money tools for students</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F9FF;--card:#fff;--ink:#172B4D;--muted:#5B6B85;--brand:#2563EB;--on:#fff;--acc:#FFC53D;--good:#16A34A;--bad:#DC2626;--line:#DDE6F3;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1729;--card:#17213A;--ink:#E7EEFC;--muted:#9FB0CE;--brand:#6EA2FF;--on:#0F1729;--line:#2A3858;--good:#4ADE80;--bad:#FF8A80}}
+:root[data-theme="dark"]{--bg:#0F1729;--card:#17213A;--ink:#E7EEFC;--muted:#9FB0CE;--brand:#6EA2FF;--on:#0F1729;--line:#2A3858;--good:#4ADE80;--bad:#FF8A80}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 Nunito,system-ui,sans-serif}
+h1,h2,h3{margin:0;line-height:1.2}
+.w{max-width:820px;margin:0 auto;padding:0 16px 40px}
+.hero{padding:28px 0 12px}
+.hero h1{font-size:clamp(30px,6vw,44px);font-weight:800}
+.hero h1 span{background:linear-gradient(transparent 62%,var(--acc) 62%)}
+.hero p{color:var(--muted);margin:8px 0 0}
+.nav{display:flex;gap:8px;overflow-x:auto;padding:12px 0}
+.nav button{flex:none;font:inherit;font-weight:600;cursor:pointer;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:20px;padding:8px 16px}
+.nav button[aria-selected=true]{background:var(--brand);color:var(--on);border-color:var(--brand)}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.card h2{font-size:22px;margin-bottom:4px}
+.sub{color:var(--muted);margin:0 0 14px;font-size:15px}
+label{display:block;font-weight:600;font-size:14px}
+input,select{font:inherit;width:100%;padding:9px 10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;align-items:end;margin:12px 0}
+.row.g3{grid-template-columns:2fr 1fr 1fr auto}
+.btn{font:inherit;font-weight:600;cursor:pointer;background:var(--brand);color:var(--on);border:0;border-radius:8px;padding:10px 16px}
+.btn.alt{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.big{font-size:38px;font-weight:800;line-height:1.1}
+.neg{color:var(--bad)}.pos{color:var(--good)}
+.bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin:8px 0 4px}
+.bar i{display:block;height:100%;background:var(--brand);border-radius:5px}
+ul{list-style:none;margin:10px 0 0;padding:0}
+li{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+li>span{flex:1}li small{display:block;color:var(--muted);font-size:13px}
+li .x{font:inherit;cursor:pointer;background:none;border:0;color:var(--muted);font-size:22px;line-height:1;padding:0 6px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:8px 6px;border-top:1px solid var(--line)}
+th{border-top:0;color:var(--muted);font-weight:600}
+td input{margin:0;padding:6px 8px;min-width:80px}
+.kp{display:flex;gap:20px;flex-wrap:wrap;margin:6px 0}
+.kp div{color:var(--muted);font-size:14px}.kp b{display:block;font-size:22px;color:var(--ink)}
+.dep{display:flex;gap:8px;margin-top:8px}.dep input{margin:0}
+.chk{display:flex;align-items:center;gap:6px;font-weight:600;font-size:14px;margin-top:0}
+.chk input{width:auto;margin:0}
+details{border-top:1px solid var(--line);padding:12px 0}
+summary{cursor:pointer;font-weight:800;font-size:18px}
+details p{margin:8px 0 0;color:var(--muted)}
+footer{color:var(--muted);font-size:13px;text-align:center;padding-top:8px}
+.card h3{margin:22px 0 8px;font-size:18px}
+.ic{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:var(--brand);flex:none}
+.model{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center}
+.mc{border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center;background:var(--bg)}
+.mc h3{margin:0;font-size:16px}.mc p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.mc .ic{margin-bottom:6px}.arr{color:var(--muted)}
+.g3c{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.stats{display:flex;gap:24px;flex-wrap:wrap;margin-top:18px;color:var(--muted);font-size:14px}
+.stats b{display:block;font-size:26px;font-weight:800;color:var(--brand)}
+.ill{width:100%;height:auto;display:block;border-radius:12px;margin:8px 0}
+@media (max-width:620px){.model{grid-template-columns:1fr}.arr{margin:0 auto;transform:rotate(90deg)}}
+.cbt{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;min-width:56px;height:56px;padding:0 16px;border-radius:28px;border:0;background:var(--brand);color:var(--on);font:800 16px Nunito,system-ui,sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.cbp{position:fixed;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:20;width:min(360px,calc(100vw - 32px));height:min(480px,calc(100vh - 140px));display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.25)}
+.cbh{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--brand);color:var(--on);font-weight:800}
+.cbh button{background:none;border:0;color:inherit;font-size:24px;line-height:1;cursor:pointer;padding:0 4px}
+.cbl{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.cm{max-width:88%;padding:8px 12px;border-radius:12px;font-size:15px;line-height:1.45}
+.cm.bot{background:var(--bg);border:1px solid var(--line);align-self:flex-start}
+.cm.me{background:var(--brand);color:var(--on);align-self:flex-end}
+.cbc{display:flex;gap:6px;flex-wrap:wrap;padding:0 12px 8px}
+.cbc button{font:inherit;font-size:13px;cursor:pointer;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:4px 10px}
+.cbf{display:flex;gap:6px;padding:10px;border-top:1px solid var(--line)}
+.cbf input{margin:0}
+[hidden]{display:none!important}
+@media (max-width:620px){.row,.row.g3{grid-template-columns:1fr 1fr}.row>:first-child{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="hero"><h1>Student<span>Finance</span></h1><p>Simple money tools made for students. Track your pocket money, plan your month and save for what matters.</p></div>
+<div class="nav" role="tablist" id="nav"></div>
+
+<!-- Free icons: simple inline SVG symbols, no downloads or licences needed. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+<symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18"/></symbol>
+<symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5zM6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4h12a2 2 0 012 2v14H6a2 2 0 01-2-2zM8 8h6"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="i-rupee" viewBox="0 0 24 24"><path d="M7 5h10M7 9.5h10M7 5h3.5a3.2 3.2 0 010 6.5H7l7 8"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<section class="card" id="md"><h2>Our FinTech model</h2><p class="sub">How StudentFinance helps students manage money, and how it works as a business.</p>
+<svg class="ill" viewBox="0 0 400 240" role="img" aria-label="Illustration of a graduation cap, a phone showing savings, coins and a book">
+<rect width="400" height="240" rx="14" style="fill:var(--line)"/>
+<rect x="38" y="40" width="64" height="116" rx="12" fill="#172B4D"/><rect x="45" y="56" width="50" height="84" rx="6" fill="#fff"/>
+<rect x="52" y="112" width="8" height="20" fill="#93C5FD"/><rect x="64" y="100" width="8" height="32" fill="#60A5FA"/><rect x="76" y="86" width="8" height="46" fill="#2563EB"/>
+<text x="52" y="76" font-size="11" font-weight="800" fill="#172B4D">₹4,200</text>
+<polygon points="215,50 315,90 215,130 115,90" fill="#2563EB"/><path d="M160 112v34c0 12 25 22 55 22s55-10 55-22v-34l-55 22z" fill="#1D4ED8"/>
+<path d="M315 90v46" stroke="#FFC53D" stroke-width="4"/><circle cx="315" cy="142" r="7" fill="#FFC53D"/>
+<circle cx="70" cy="196" r="24" fill="#FFC53D"/><text x="70" y="205" font-size="24" font-weight="800" text-anchor="middle" fill="#92400E">₹</text>
+<circle cx="116" cy="210" r="16" fill="#FCD34D"/><text x="116" y="216" font-size="16" font-weight="800" text-anchor="middle" fill="#92400E">₹</text>
+<rect x="300" y="170" width="80" height="54" rx="6" fill="#16A34A"/><path d="M340 170v54" stroke="#fff" stroke-width="3"/>
+</svg>
+<h3>The problem</h3>
+<p>Many students manage money with no plan. Pocket money runs out early, college fees come as a surprise, and few people teach the basics. Most financial products are built for salaried adults, not for students.</p>
+<h3>Our solution</h3>
+<p>A free app where students track and plan their money and learn simple habits. We then connect them to student-friendly products from trusted partners.</p>
+<div class="model" style="margin-top:14px">
+<div class="mc"><svg class="ic"><use href="#i-user"/></svg><h3>Students</h3><p>Use free tools and lessons</p></div>
+<svg class="ic arr"><use href="#i-arrow"/></svg>
+<div class="mc"><svg class="ic"><use href="#i-phone"/></svg><h3>StudentFinance app</h3><p>Trackers, budgets, goals and matching</p></div>
+<svg class="ic arr"><use href="#i-arrow"/></svg>
+<div class="mc"><svg class="ic"><use href="#i-bank"/></svg><h3>Partners</h3><p>Student banks, scholarships and education-loan lenders</p></div>
+</div>
+<h3>How it works for a student</h3>
+<div class="g3c">
+<div class="mc"><svg class="ic"><use href="#i-cap"/></svg><h3>1. Join</h3><p>Sign up with a college email.</p></div>
+<div class="mc"><svg class="ic"><use href="#i-chart"/></svg><h3>2. Track and plan</h3><p>Log pocket money and set a budget and goals.</p></div>
+<div class="mc"><svg class="ic"><use href="#i-book"/></svg><h3>3. Learn</h3><p>Short lessons build good money habits.</p></div>
+<div class="mc"><svg class="ic"><use href="#i-target"/></svg><h3>4. Get matched</h3><p>See offers such as zero-balance accounts and scholarships.</p></div>
+</div>
+<h3>How StudentFinance earns money</h3>
+<div class="g3c">
+<div class="mc"><svg class="ic"><use href="#i-rupee"/></svg><h3>Partner referrals</h3><p>A small commission when a student opens a partner account or applies for a scholarship or loan.</p></div>
+<div class="mc"><svg class="ic"><use href="#i-shield"/></svg><h3>Premium plan</h3><p>Optional ₹49 a month for reports, reminders and shared goals.</p></div>
+<div class="mc"><svg class="ic"><use href="#i-cap"/></svg><h3>Campus licences</h3><p>Colleges pay to offer StudentFinance to all their students.</p></div>
+</div>
+<div class="stats"><div><b>10,000+</b>students</div><div><b>₹2.5 Cr</b>money tracked</div><div><b>4.6 / 5</b>student rating</div></div>
+</section>
+
+<section class="card" id="pm" hidden><h2>Pocket-money tracker</h2><p class="sub">Enter your pocket money, then log what you spend.</p>
+<label for="pmv">Pocket money this month (₹)</label><input id="pmv" type="number" min="0" step="100" placeholder="e.g. 5000">
+<div style="margin-top:14px"><div class="big" id="pr">₹0</div><div class="bar"><i id="pb" style="width:0"></i></div><small id="pt" style="color:var(--muted)"></small></div>
+<div class="row"><label>What for?<input id="pn" type="text" placeholder="Lunch, bus pass…"></label><label>Amount (₹)<input id="pa" type="number" min="0"></label><label>Type<select id="pc"></select></label><button class="btn" id="padd">Add</button></div>
+<ul id="pl"></ul><button class="btn alt" id="pclr" style="margin-top:12px">Start a new month</button></section>
+
+<section class="card" id="bd" hidden><h2>Monthly budget</h2><p class="sub">Plan how much to spend in each area. "Spent" comes from your pocket-money tracker.</p>
+<label for="bi">Money I get this month (₹)</label><input id="bi" type="number" min="0" step="100" placeholder="e.g. 5000">
+<table style="margin-top:14px"><thead><tr><th>Area</th><th>Planned (₹)</th><th>Spent</th><th>Left</th></tr></thead><tbody id="bt"></tbody></table>
+<p id="bs" style="margin:12px 0 0;font-weight:600"></p></section>
+
+<section class="card" id="cl" hidden><h2>College expense tracker</h2><p class="sub">Keep track of fees, books and other college costs, and what is still due.</p>
+<div class="kp"><div><b id="ct">₹0</b>Total</div><div><b id="cp" class="pos">₹0</b>Paid</div><div><b id="cd" class="neg">₹0</b>Still due</div></div>
+<div class="row g3"><label>Expense<input id="cn" type="text" placeholder="Semester fee, textbooks…"></label><label>Amount (₹)<input id="ca" type="number" min="0"></label><label>Category<select id="cc"></select></label><button class="btn" id="cadd">Add</button></div>
+<label class="chk"><input type="checkbox" id="cpd"> Already paid</label><ul id="cll"></ul></section>
+
+<section class="card" id="gl" hidden><h2>Savings goals</h2><p class="sub">Set a goal, then add money as you save.</p>
+<div class="row g3"><label>Goal<input id="gn" type="text" placeholder="Laptop, trip…"></label><label>Target (₹)<input id="gt" type="number" min="0"></label><label>Monthly (₹)<input id="gm" type="number" min="0"></label><button class="btn" id="gadd">Add</button></div><ul id="gll"></ul></section>
+
+<section class="card" id="tu" hidden><h2>Simple finance tutorials</h2><p class="sub">Short lessons. Tap one to open it.</p>
+<details open><summary>What is a budget?</summary><p>A budget is a plan for your money: what comes in, and where it goes. A popular guide is about 50% for needs, 30% for wants and 20% for saving. With pocket money, set your savings aside first, then split the rest.</p></details>
+<details><summary>Needs vs wants</summary><p>Needs are things you can't do without, like food, travel to college and course books. Wants are nice extras. Before buying, ask: "Will I be okay without this for a month?"</p></details>
+<details><summary>Why start saving early</summary><p>Saving ₹500 a month for 10 years at an example rate of 7% a year grows to about ₹86,000, though you only put in ₹60,000. The earlier you start, the more time your money has to grow. Rates are not guaranteed.</p></details>
+<details><summary>Stay safe with UPI</summary><p>Never share your UPI PIN or an OTP with anyone. You never need a PIN to receive money, so a "request" that asks for one is a scam. Check the name before you pay.</p></details>
+<details><summary>Build a small safety fund</summary><p>Keep a little money aside, even ₹2,000 to ₹5,000, for surprises like a phone repair or a missed bus. Keep it separate from your spending money.</p></details>
+<details><summary>Be careful with "pay later"</summary><p>Credit cards and "buy now, pay later" offers can charge high interest if you don't pay on time. Use them only for things you need, and pay in full.</p></details></section>
+
+<footer>For learning only, not financial advice. Your entries are saved only in this browser on this device.</footer>
+</div>
+<button class="cbt" id="cbt" aria-expanded="false" aria-controls="cbp">Chat</button>
+<div class="cbp" id="cbp" role="dialog" aria-label="StudentFinance assistant" hidden>
+<div class="cbh"><span>StudentFinance assistant</span><button id="cbx" aria-label="Close chat">×</button></div>
+<div class="cbl" id="cbl" aria-live="polite"></div>
+<div class="cbc" id="cbc"></div>
+<div class="cbf"><input id="cbi" type="text" placeholder="Ask about money…" aria-label="Your question"><button class="btn" id="cbs">Send</button></div>
+</div>
+<script>
+var $=function(i){return document.getElementById(i)},K="studentfinance-v1",C=["Food","Travel","Study","Fun","Other"],CC=["Fees","Books","Hostel / Rent","Stationery","Projects","Exams","Other"];
+var S={pm:0,tx:[],inc:0,bud:{},col:[],goals:[]};
+try{var raw=localStorage.getItem(K);if(raw)S=Object.assign(S,JSON.parse(raw))}catch(e){}
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+var f=function(n){return(n<0?"-":"")+"₹"+Math.round(Math.abs(n)).toLocaleString("en-IN")};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})};
+var opt=function(a){return a.map(function(x){return"<option>"+x+"</option>"}).join("")};
+function spent(c){return S.tx.reduce(function(s,t){return s+(!c||t.c===c?t.a:0)},0)}
+function rPM(){var sp=spent(),l=S.pm-sp;$("pr").textContent=f(l)+" left";$("pr").className="big"+(l<0?" neg":"");
+$("pb").style.width=Math.min(100,S.pm>0?sp/S.pm*100:0)+"%";$("pt").textContent="Spent "+f(sp)+" of "+f(S.pm);
+var h="";for(var i=S.tx.length-1;i>=0;i--){var t=S.tx[i];h+='<li><span>'+esc(t.n)+'<small>'+t.c+' · '+t.d+'</small></span><b>'+f(t.a)+'</b><button class="x" data-del="tx" data-i="'+i+'" aria-label="Delete '+esc(t.n)+'">×</button></li>'}
+$("pl").innerHTML=h||'<li style="color:var(--muted)">Nothing logged yet.</li>'}
+function rBud(){var pl=0;C.concat("Savings").forEach(function(c){var p=S.bud[c]||0;pl+=p;if(c==="Savings"){$("bs_"+c).textContent="-";$("bl_"+c).textContent="-";return}
+var s=spent(c);$("bs_"+c).textContent=f(s);var l=$("bl_"+c);l.textContent=f(p-s);l.className=p-s<0?"neg":"pos"});
+var d=S.inc-pl;$("bs").textContent=S.inc>0?"Planned "+f(pl)+" of "+f(S.inc)+". "+(d>=0?f(d)+" not yet planned.":"You've planned "+f(-d)+" more than you have."):"Enter your money for the month to see your plan."}
+function rCol(){var t=0,p=0,h="";S.col.forEach(function(c,i){t+=c.a;if(c.p)p+=c.a;
+h+='<li><span>'+esc(c.n)+'<small>'+c.c+'</small></span><b>'+f(c.a)+'</b><button class="btn alt" data-tog="'+i+'" style="padding:4px 10px;font-size:14px">'+(c.p?"Paid":"Due")+'</button><button class="x" data-del="col" data-i="'+i+'" aria-label="Delete '+esc(c.n)+'">×</button></li>'});
+$("ct").textContent=f(t);$("cp").textContent=f(p);$("cd").textContent=f(t-p);$("cll").innerHTML=h||'<li style="color:var(--muted)">No expenses yet.</li>'}
+function rGoals(){var h="";S.goals.forEach(function(g,i){var pc=Math.min(100,g.t>0?g.s/g.t*100:0),m=g.t-g.s;
+h+='<li style="display:block"><div style="display:flex;gap:10px;align-items:center"><span style="flex:1"><b>'+esc(g.n)+'</b><small>'+f(g.s)+' of '+f(g.t)+'</small></span><button class="x" data-del="goal" data-i="'+i+'" aria-label="Delete '+esc(g.n)+'">×</button></div>'+
+'<div class="bar"><i style="width:'+pc+'%"></i></div><small>'+(m<=0?"Goal reached!":g.m>0?"About "+Math.ceil(m/g.m)+" months to go at "+f(g.m)+" a month":"Add a monthly amount to see a timeline")+'</small>'+
+'<div class="dep"><input type="number" min="0" id="dep'+i+'" placeholder="Add savings (₹)" aria-label="Amount to add to '+esc(g.n)+'"><button class="btn" data-dep="'+i+'">Add</button></div></li>'});
+$("gll").innerHTML=h||'<li style="color:var(--muted)">No goals yet. Add your first one above.</li>'}
+// setup
+$("pc").innerHTML=opt(C);$("cc").innerHTML=opt(CC);
+$("bt").innerHTML=C.concat("Savings").map(function(c){return'<tr><td>'+c+'</td><td><input type="number" min="0" data-b="'+c+'" aria-label="Planned for '+c+'" value="'+(S.bud[c]||"")+'"></td><td id="bs_'+c+'"></td><td id="bl_'+c+'"></td></tr>'}).join("");
+$("pmv").value=S.pm||"";$("bi").value=S.inc||"";
+var tabs=[["md","Our model"],["pm","Pocket money"],["bd","Budget"],["cl","College expenses"],["gl","Savings goals"],["tu","Tutorials"]];
+$("nav").innerHTML=tabs.map(function(t,i){return'<button role="tab" data-t="'+t[0]+'" aria-selected="'+(i==0)+'">'+t[1]+'</button>'}).join("");
+$("nav").onclick=function(e){var t=e.target.dataset.t;if(!t)return;tabs.forEach(function(x){$(x[0]).hidden=x[0]!==t});
+[].forEach.call($("nav").children,function(b){b.setAttribute("aria-selected",b.dataset.t===t)})};
+document.addEventListener("input",function(e){var t=e.target;
+if(t.id==="pmv")S.pm=+t.value||0;else if(t.id==="bi")S.inc=+t.value||0;else if(t.dataset.b)S.bud[t.dataset.b]=+t.value||0;else return;
+save();rPM();rBud()});
+var today=function(){return new Date().toLocaleDateString("en-IN",{day:"numeric",month:"short"})};
+$("padd").onclick=function(){var n=$("pn").value.trim(),a=+$("pa").value;if(!n||!(a>0))return;S.tx.push({n:n,a:a,c:$("pc").value,d:today()});$("pn").value="";$("pa").value="";save();rPM();rBud()};
+var armed=false;$("pclr").onclick=function(){if(!armed){armed=true;this.textContent="Click again to clear this month's entries";return}armed=false;this.textContent="Start a new month";S.tx=[];save();rPM();rBud()};
+$("cadd").onclick=function(){var n=$("cn").value.trim(),a=+$("ca").value;if(!n||!(a>0))return;S.col.push({n:n,a:a,c:$("cc").value,p:$("cpd").checked});$("cn").value="";$("ca").value="";$("cpd").checked=false;save();rCol()};
+$("gadd").onclick=function(){var n=$("gn").value.trim(),t=+$("gt").value;if(!n||!(t>0))return;S.goals.push({n:n,t:t,s:0,m:+$("gm").value||0});$("gn").value="";$("gt").value="";$("gm").value="";save();rGoals()};
+document.addEventListener("click",function(e){var d=e.target.dataset;
+if(d.del){S[d.del==="goal"?"goals":d.del].splice(+d.i,1);save();rPM();rBud();rCol();rGoals()}
+else if(d.tog!==undefined){S.col[+d.tog].p=!S.col[+d.tog].p;save();rCol()}
+else if(d.dep!==undefined){var a=+$("dep"+d.dep).value;if(a>0){S.goals[+d.dep].s+=a;save();rGoals()}}});
+rPM();rBud();rCol();rGoals();
+var cbL=$("cbl");
+function cbSay(t,w){var d=document.createElement("div");d.className="cm "+w;d.textContent=t;cbL.appendChild(d);cbL.scrollTop=cbL.scrollHeight}
+var BOT=[
+[/^(hi|hello|hey)\b/,function(){return"Hi! Ask me a money question, or ask about the numbers you've entered in the tabs."}],
+[/^help|what can you|how do i use/,function(){return"I can tell you how much pocket money is left, where it went, what college costs are due and how your savings goals are going. I can also explain budgets, UPI safety, saving, scholarships and how StudentFinance works."}],
+[/left|remain|balance|how much (do i|money)/,function(){var l=S.pm-spent();return S.pm>0?"You have "+f(l)+" left of your "+f(S.pm)+" pocket money this month."+(l<0?" You've gone over, so try pausing spending on wants.":""):"Enter your pocket money in the Pocket money tab and I can tell you how much is left."}],
+[/spent|spending|where did my money/,function(){if(!S.tx.length)return"You haven't logged any spending yet. Add an entry in the Pocket money tab.";var b="",m=-1;C.forEach(function(k){var v=spent(k);if(v>m){m=v;b=k}});return"You've spent "+f(spent())+" so far. Most of it went on "+b+" ("+f(m)+")."}],
+[/college|fee|due|tuition/,function(){if(!S.col.length)return"Add your fees, books and other costs in the College expenses tab and I can tell you what's still due.";var t=0,p=0;S.col.forEach(function(x){t+=x.a;if(x.p)p+=x.a});return"Your college expenses total "+f(t)+". You've paid "+f(p)+" and "+f(t-p)+" is still due."}],
+[/goal|target|laptop/,function(){return S.goals.length?S.goals.map(function(g){return g.n+": "+f(g.s)+" of "+f(g.t)}).join(". ")+".":"You don't have a savings goal yet. Add one in the Savings goals tab."}],
+[/budget|50\/30\/20/,function(){var i=S.inc||S.pm;return"A simple guide is 50% for needs, 30% for wants and 20% for saving."+(i>0?" On "+f(i)+" a month, that's about "+f(i*.5)+" for needs, "+f(i*.3)+" for wants and "+f(i*.2)+" for saving.":" Enter your monthly money in the Budget tab to see your own numbers.")}],
+[/upi|otp|pin\b|scam|fraud|safe/,function(){return"Never share your UPI PIN or an OTP with anyone. You never need a PIN to receive money, so a request that asks for one is a scam. Check the name before you pay, and be wary of offers that sound too good to be true."}],
+[/credit|pay later|bnpl|loan|emi|debt/,function(){return"Credit cards and pay-later offers can charge high interest if you miss a payment. Use them only for things you need, pay in full, and compare the total interest before you take any loan."}],
+[/scholarship/,function(){return"Check eligibility and deadlines on the official National Scholarship Portal (scholarships.gov.in) and with your college office. Never pay anyone to apply for a scholarship."}],
+[/invest|sip|mutual|stock|shares/,function(){return"Build a small safety fund first. A SIP puts a fixed amount into an investment every month, and starting early gives your money more time to grow. Returns are never guaranteed, and I can't give personal investment advice."}],
+[/save|saving|emergency|safety fund/,function(){return"Save first, then spend: move a fixed amount to savings as soon as your money arrives. Keep a small safety fund, even ₹2,000 to ₹5,000, for surprises, and set a goal in the Savings goals tab."}],
+[/earn|revenue|business|model|make money/,function(){return"StudentFinance is free for students. As a business it earns from partner referrals, an optional premium plan and campus licences. The Our model tab explains it."}],
+[/what is|about|who/,function(){return"StudentFinance gives students simple tools to track pocket money, plan a monthly budget, keep college costs in order, save for goals and learn the basics."}],
+[/thank/,function(){return"You're welcome! Ask me anything else about money."}]];
+function cbAsk(q){q=q.trim();if(!q)return;cbSay(q,"me");var r=BOT.filter(function(x){return x[0].test(q.toLowerCase())})[0];
+cbSay(r?r[1]():"I'm not sure about that one. I can help with your pocket money, budget, college costs, savings goals, UPI safety and basic money questions.","bot");$("cbi").value=""}
+$("cbc").innerHTML=["How much do I have left?","How should I budget?","Stay safe with UPI","How does StudentFinance earn?"].map(function(q){return"<button>"+q+"</button>"}).join("");
+$("cbc").onclick=function(e){if(e.target.tagName==="BUTTON")cbAsk(e.target.textContent)};
+$("cbs").onclick=function(){cbAsk($("cbi").value)};
+$("cbi").onkeydown=function(e){if(e.key==="Enter")cbAsk($("cbi").value)};
+$("cbt").onclick=function(){var p=$("cbp"),o=p.hidden;p.hidden=!o;this.setAttribute("aria-expanded",o?"true":"false");this.textContent=o?"×":"Chat";if(o)$("cbi").focus()};
+$("cbx").onclick=function(){$("cbp").hidden=true;var b=$("cbt");b.setAttribute("aria-expanded","false");b.textContent="Chat";b.focus()};
+cbSay("Hi, I'm the StudentFinance assistant. Ask me about pocket money, budgets, college costs, savings goals or staying safe online.","bot");
+</script>
+</body>
+</html>
